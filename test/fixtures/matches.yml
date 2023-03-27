@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2023-03-26
+  score: 1.5
+  winner: one
+  loser: one
+  league: one
+
+two:
+  date: 2023-03-26
+  score: 1.5
+  winner: two
+  loser: two
+  league: two
