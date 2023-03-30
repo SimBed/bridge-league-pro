@@ -12,8 +12,20 @@
   <% end %>
 
   <div>
+    <%= form.label :season, style: "display: block" %>
+    <%= form.text_field :season %>
+  </div>
+
+  <div>
     <%= form.label :name, style: "display: block" %>
     <%= form.text_field :name %>
+  </div>
+
+  <div class="my-2">
+    <%= form.label :loser_scores_zero do %>
+      <%= form.check_box :loser_scores_zero %>
+      loser scores zero?
+    <% end %>
   </div>
 
   <div>

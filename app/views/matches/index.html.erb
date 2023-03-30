@@ -1,14 +1,30 @@
-<p style="color: green"><%= notice %></p>
+<h5>Matches <%= link_to image_tag('add.png'), new_match_path %></h5>
 
-<h1>Matches</h1>
+<table id = "matches_table">
+  <thead>
+    <tr>
+       <th>Date</th>
+      <th class="pr-2 pr-md-5">Score</th>
+      <th>Winner</th>
+      <th>Loser</th>
+      <th>League</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
 
-<div id="matches">
-  <% @matches.each do |match| %>
-    <%= render match %>
-    <p>
-      <%= link_to "Show this match", match %>
-    </p>
-  <% end %>
-</div>
+  <tbody>
+    <% @matches.each do |match| %>
+      <tr>
+        <td><%= match.date.strftime('%d/%m/%y') %></td>
+        <td><%= match.score %></td>
+        <td><%= match.winner.name %></td>
+        <td><%= match.loser.name %></td>
+        <td><%= link_to match.league.name, match.league %> </td>
+        <td class="pl-3 pl-md-5"><%= link_to image_tag("edit.png", class: "edit_icon"), edit_match_path(match) %></td>
+        <td class="pl-md-3"><%= link_to image_tag("delete.png", class: "edit_icon"), match, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
-<%= link_to "New match", new_match_path %>
+

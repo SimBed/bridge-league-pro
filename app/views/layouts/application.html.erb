@@ -8,9 +8,28 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+
+    <meta charset="utf-8">
+    <meta property="og:title" content= "Monopoly Deal League">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://monodeal.fly.dev">
   </head>
 
   <body>
-    <%= yield %>
+    <%= render 'layouts/header' %>
+    <main>
+
+    <div id="flash_messages">
+      <% flash.each do |message_type, message| %>
+        <div class="alert alert-<%= message_type %>"><%= message %></div>
+      <% end %>
+    </div>
+
+
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+      <%= yield %>
+      <%= debug(params) if Rails.env.development? %>
+    </main>
   </body>
 </html>

@@ -1,4 +1,5 @@
 class MatchesController < ApplicationController
+  before_action :sanitize_params, only: [:create, :update]
   before_action :set_match, only: %i[ show edit update destroy ]
 
   # GET /matches or /matches.json
@@ -22,7 +23,6 @@ class MatchesController < ApplicationController
   # POST /matches or /matches.json
   def create
     @match = Match.new(match_params)
-
     respond_to do |format|
       if @match.save
         format.html { redirect_to match_url(@match), notice: "Match was successfully created." }
@@ -67,4 +67,10 @@ class MatchesController < ApplicationController
     def match_params
       params.require(:match).permit(:date, :score, :winner_id, :loser_id, :league_id)
     end
+
+    def sanitize_params
+      params[:match][:winner_id] =  params[:match][:winner_id].to_i
+      params[:match][:loser_id] =  params[:match][:loser_id].to_i
+      params[:match][:league_id] =  params[:match][:league_id].to_i
+    end    
 end

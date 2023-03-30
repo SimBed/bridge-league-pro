@@ -1,10 +1,51 @@
-<p style="color: green"><%= notice %></p>
+<p>
+  <strong>League:</strong>
 
-<%= render @league %>
+  <select id="show_pages">
+    <!-- https://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-options_for_select-->
+    <!-- value, option text, selected -->
+    <!-- [["SimKann", 1, {"data-showurl"=>"http://localhost:3000/leagues/1"}],
+         ["MonNight", 2, {"data-showurl"=>"http://localhost:3000/leagues/2"}]],
+         1 -->
+    <%= options_for_select(@leagues, params[:id]) %>
+  </select>
 
-<div>
-  <%= link_to "Edit this league", edit_league_path(@league) %> |
-  <%= link_to "Back to leagues", leagues_path %>
+</p>
 
-  <%= button_to "Destroy this league", @league, method: :delete %>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th class="pr-3 pr-md-5">Matches</th>
+      <th class="pr-3 pr-md-5">Score</th>
+      <th>Position</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @players.each_with_index do |player, index| %>
+      <tr>
+        <td><%= link_to player.name, player %></td>
+        <td><%= player.league_matches(@league).count %></td>
+        <td><%= player.score(@league) %></td>
+        <td><%= index + 1 %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Edit', edit_league_path(@league) %>
+
+<script>
+	var userSelection = document.getElementById("show_pages");
+
+  userSelection.onchange = function(event){
+    var show_url = event.target.options[event.target.selectedIndex].dataset.showurl;
+    //var option = userSelection.options[userSelection.selectedIndex];
+    //var show_url = option.getAttribute("data-rc");
+    window.location.replace(show_url);
+  };
+
+</script>
+

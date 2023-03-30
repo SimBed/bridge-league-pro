@@ -16,9 +16,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_26_165126) do
 
   create_table "leagues", force: :cascade do |t|
     t.string "name"
+    t.string "season"
+    t.boolean "loser_scores_zero", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_leagues_on_name", unique: true
+    t.index ["name"], name: "index_leagues_on_name"
+    t.index ["season"], name: "index_leagues_on_season"
   end
 
   create_table "matches", force: :cascade do |t|

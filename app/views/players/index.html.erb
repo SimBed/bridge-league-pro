@@ -1,14 +1,22 @@
-<p style="color: green"><%= notice %></p>
+<h5>Players <%= link_to image_tag('add.png'), new_player_path %></h5>
 
-<h1>Players</h1>
+<table id = "players_table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
 
-<div id="players">
-  <% @players.each do |player| %>
-    <%= render player %>
-    <p>
-      <%= link_to "Show this player", player %>
-    </p>
-  <% end %>
-</div>
+  <tbody>
+    <% @players.each do |player| %>
+      <tr>
+        <td><%= player.name %></td>
+        <td class="pl-3 pl-md-5"><%= link_to image_tag("edit.png", class: "edit_icon"), edit_player_path(player['id']) %></td>
+        <td class="pl-md-3"><%= link_to image_tag("delete.png", class: "edit_icon"), player_path(player['id']), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
-<%= link_to "New player", new_player_path %>
+
