@@ -1,19 +1,19 @@
 <h5>Players <%= link_to image_tag('add.png'), new_player_path %></h5>
 
 <table id = "players_table">
-  <thead>
+  <%# <thead>
     <tr>
       <th>Name</th>
       <th colspan="2"></th>
     </tr>
-  </thead>
+  </thead> %>
 
   <tbody>
     <% @players.each do |player| %>
       <tr>
         <td><%= player.name %></td>
-        <td class="pl-3 pl-md-5"><%= link_to image_tag("edit.png", class: "edit_icon"), edit_player_path(player['id']) %></td>
-        <td class="pl-md-3"><%= link_to image_tag("delete.png", class: "edit_icon"), player_path(player['id']), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td class="pl-3 pl-md-5"><%= link_to image_tag("edit.png", class: "edit_icon"), edit_player_path(player[:id]) %></td>
+        <td class="pl-md-3"><%= button_to image_tag("delete.png", class: "edit_icon"), player_path(player[:id]), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

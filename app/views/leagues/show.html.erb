@@ -26,7 +26,7 @@
   <tbody>
     <% @players.each_with_index do |player, index| %>
       <tr>
-        <td><%= link_to player.name, player %></td>
+        <td><%= player.name %></td>
         <td><%= player.league_matches(@league).count %></td>
         <td><%= player.score(@league) %></td>
         <td><%= index + 1 %></td>
@@ -34,8 +34,6 @@
     <% end %>
   </tbody>
 </table>
-
-<%= link_to 'Edit', edit_league_path(@league) %>
 
 <script>
 	var userSelection = document.getElementById("show_pages");

@@ -1,11 +1,8 @@
 class PlayersController < ApplicationController
-  before_action :set_player, only: %i[ show edit update destroy ]
+  before_action :set_player, only: %i[ edit update destroy ]
 
   def index
     @players = Player.all
-  end
-
-  def show
   end
 
   def new
@@ -18,7 +15,8 @@ class PlayersController < ApplicationController
   def create
     @player = Player.new(player_params)
     if @player.save
-      redirect_to players_path, notice: "Player was successfully created."
+      flash[:success] = "Player was successfully created."
+      redirect_to players_path
     else
       render :new, status: :unprocessable_entity
     end
@@ -26,7 +24,8 @@ class PlayersController < ApplicationController
 
   def update
     if @player.update(player_params)
-      redirect_to players_path, notice: "Player was successfully updated."
+      flash[:success] = "Player was successfully updated."
+      redirect_to players_path
     else
       render :edit, status: :unprocessable_entity
     end
@@ -34,7 +33,8 @@ class PlayersController < ApplicationController
 
   def destroy
     @player.destroy
-    redirect_to players_path, notice: "Player was successfully destroyed."
+    flash[:success] = "Player was successfully destroyed."
+    redirect_to players_path
   end
 
   private

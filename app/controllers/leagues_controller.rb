@@ -10,8 +10,6 @@ class LeaguesController < ApplicationController
 
   def show
     players = @league.players.to_a
-    # p_ord=players.map {|p| p.position(league)}
-    # @players = players.sort_by &p_ord.method(:index)
     @players = players.sort_by { |p| -p.score(@league) }
     # e.g. [["SimKann", 1, {"data-showurl"=>"http://localhost:3000/leagues/1"}],
     #        ["MonNight", 2, {"data-showurl"=>"http://localhost:3000/leagues/2"}]]
@@ -28,16 +26,17 @@ class LeaguesController < ApplicationController
   def create
     @league = League.new(league_params)
     if @league.save
-      redirect_to league_url(@league), notice: "League was successfully created." 
+      flash[:success] = "League was successfully created."
+      redirect_to leagues_path
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-
   def update
     if @league.update(league_params)
-      redirect_to league_url(@league), notice: "League was successfully updated."
+      flash[:success] = "League was successfully updated."
+      redirect_to leagues_path
     else
       render :edit, status: :unprocessable_entity
     end
@@ -45,7 +44,8 @@ class LeaguesController < ApplicationController
 
   def destroy
     @league.destroy
-    redirect_to leagues_url, notice: "League was successfully destroyed."
+    flash[:success] = "League was successfully destroyed."
+    redirect_to leagues_path
   end
 
   private

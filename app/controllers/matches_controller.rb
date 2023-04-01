@@ -1,69 +1,55 @@
 class MatchesController < ApplicationController
   before_action :sanitize_params, only: [:create, :update]
-  before_action :set_match, only: %i[ show edit update destroy ]
+  before_action :set_match, only: %i[ edit update destroy ]
+  before_action :set_options, only: %i[new edit]  
 
-  # GET /matches or /matches.json
   def index
     @matches = Match.all
   end
 
-  # GET /matches/1 or /matches/1.json
-  def show
-  end
-
-  # GET /matches/new
   def new
     @match = Match.new
   end
 
-  # GET /matches/1/edit
-  def edit
+   def edit
   end
 
-  # POST /matches or /matches.json
   def create
     @match = Match.new(match_params)
-    respond_to do |format|
-      if @match.save
-        format.html { redirect_to match_url(@match), notice: "Match was successfully created." }
-        format.json { render :show, status: :created, location: @match }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @match.errors, status: :unprocessable_entity }
-      end
+    if @match.save
+      flash[:success] = "Match was successfully created."
+      redirect_to matches_path
+    else
+      set_options
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /matches/1 or /matches/1.json
   def update
-    respond_to do |format|
-      if @match.update(match_params)
-        format.html { redirect_to match_url(@match), notice: "Match was successfully updated." }
-        format.json { render :show, status: :ok, location: @match }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @match.errors, status: :unprocessable_entity }
-      end
+    if @match.update(match_params)
+      flash[:success] = "Match was successfully updated."
+      redirect_to matches_path
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /matches/1 or /matches/1.json
   def destroy
     @match.destroy
-
-    respond_to do |format|
-      format.html { redirect_to matches_url, notice: "Match was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    flash[:success] = "Match was successfully destroyed."
+    redirect_to matches_path
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_match
       @match = Match.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
+    def set_options
+      @player_options = Player.all.map { |p| [p.name, p.id] }
+      @league_options = League.all.map { |l| [l.full_name, l.id] }
+    end    
+
     def match_params
       params.require(:match).permit(:date, :score, :winner_id, :loser_id, :league_id)
     end

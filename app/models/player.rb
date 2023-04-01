@@ -3,6 +3,7 @@ class Player < ApplicationRecord
   has_many :matches_won, :class_name => 'Match', foreign_key: 'winner_id'
   has_many :matches_lost, :class_name => 'Match', foreign_key: 'loser_id'
   has_many :leagues, through: :matches
+  validates :name, presence: true, length: { maximum: 20 }, uniqueness: { case_sensitive: false }
   
   def matches
     matches_won + matches_lost
