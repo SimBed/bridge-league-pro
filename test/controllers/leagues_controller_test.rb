@@ -17,7 +17,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create league" do
     assert_difference("League.count") do
-      post leagues_url, params: { league: { name: @league.name } }
+      post leagues_url, params: {league: {name: @league.name}}
     end
 
     assert_redirected_to league_url(League.last)
@@ -34,7 +34,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update league" do
-    patch league_url(@league), params: { league: { name: @league.name } }
+    patch league_url(@league), params: {league: {name: @league.name}}
     assert_redirected_to league_url(@league)
   end
 

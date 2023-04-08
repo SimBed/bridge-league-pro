@@ -1,11 +1,8 @@
 class LeaguesController < ApplicationController
-  before_action :set_league, only: %i[ show edit update destroy ]
+  before_action :set_league, only: %i[show edit update destroy]
 
   def index
     @leagues = League.all
-  end
-
-  def show
   end
 
   def show
@@ -13,8 +10,8 @@ class LeaguesController < ApplicationController
     @players = players.sort_by { |p| -p.score(@league) }
     # e.g. [["SimKann", 1, {"data-showurl"=>"http://localhost:3000/leagues/1"}],
     #        ["MonNight", 2, {"data-showurl"=>"http://localhost:3000/leagues/2"}]]
-    @leagues = League.all.map { |l| [l.full_name, l.id, { 'data-showurl' => league_url(l.id) }] }
-  end  
+    @leagues = League.all.map { |l| [l.full_name, l.id, {"data-showurl" => league_url(l.id)}] }
+  end
 
   def new
     @league = League.new
@@ -49,11 +46,12 @@ class LeaguesController < ApplicationController
   end
 
   private
-    def set_league
-      @league = League.find(params[:id])
-    end
 
-    def league_params
-      params.require(:league).permit(:season, :name, :loser_scores_zero)
-    end
+  def set_league
+    @league = League.find(params[:id])
+  end
+
+  def league_params
+    params.require(:league).permit(:season, :name, :loser_scores_zero)
+  end
 end

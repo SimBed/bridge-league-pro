@@ -1,5 +1,5 @@
 class PlayersController < ApplicationController
-  before_action :set_player, only: %i[ edit update destroy ]
+  before_action :set_player, only: %i[edit update destroy]
 
   def index
     @players = Player.all
@@ -38,11 +38,12 @@ class PlayersController < ApplicationController
   end
 
   private
-    def set_player
-      @player = Player.find(params[:id])
-    end
 
-    def player_params
-      params.require(:player).permit(:name)
-    end
+  def set_player
+    @player = Player.find(params[:id])
+  end
+
+  def player_params
+    params.require(:player).permit(:name)
+  end
 end

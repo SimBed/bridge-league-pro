@@ -17,7 +17,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create match" do
     assert_difference("Match.count") do
-      post matches_url, params: { match: { date: @match.date, league_id: @match.league_id, loser_id: @match.loser_id, score: @match.score, winner_id: @match.winner_id } }
+      post matches_url, params: {match: {date: @match.date, league_id: @match.league_id, loser_id: @match.loser_id, score: @match.score, winner_id: @match.winner_id}}
     end
 
     assert_redirected_to match_url(Match.last)
@@ -34,7 +34,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update match" do
-    patch match_url(@match), params: { match: { date: @match.date, league_id: @match.league_id, loser_id: @match.loser_id, score: @match.score, winner_id: @match.winner_id } }
+    patch match_url(@match), params: {match: {date: @match.date, league_id: @match.league_id, loser_id: @match.loser_id, score: @match.score, winner_id: @match.winner_id}}
     assert_redirected_to match_url(@match)
   end
 
