@@ -1,4 +1,16 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# == Schema Information
+#
+# Table name: matches
+#
+#  id         :bigint           not null, primary key
+#  date       :date
+#  score      :float
+#  winner_id  :bigint
+#  loser_id   :bigint
+#  league_id  :bigint           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 
 one:
   date: 2023-03-26

@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: matches
+#
+#  id         :bigint           not null, primary key
+#  date       :date
+#  score      :float
+#  winner_id  :bigint
+#  loser_id   :bigint
+#  league_id  :bigint           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 class Match < ApplicationRecord
   belongs_to :winner, class_name: "Player"
   belongs_to :loser, class_name: "Player"
