@@ -17,7 +17,7 @@
 
   <div class="field">
     <%= form.label :score, style: "display: block" %>
-    <%= form.number_field :score, {value: 1, min: 0, step: 0.1} %>
+    <%= form.number_field :score,  {value: @match.score || 1, min: 0, step: 0.1} %>
   </div>
 
   <div class="field">

@@ -32,8 +32,8 @@ class Player < ApplicationRecord
   def score(league)
     winning_matches = Match.where(winner_id: id).where(league_id: league.id)
     losing_matches = Match.where(loser_id: id).where(league_id: league.id)
-    winning_match_scores = winning_matches.count(:score)
-    losing_match_scores = league.loser_scores_zero? ? 0 : losing_matches.count(:score)
+    winning_match_scores = winning_matches.sum(:score)
+    losing_match_scores = league.loser_scores_zero? ? 0 : losing_matches.sum(:score)
     score = winning_match_scores - losing_match_scores
     score.round(2)
   end
