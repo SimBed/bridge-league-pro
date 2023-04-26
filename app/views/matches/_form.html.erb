@@ -12,7 +12,7 @@
 
   <div class="field">
     <%= form.label :date, style: "display: block" %>
-    <%= form.date_field :date %>
+    <%= form.date_select :date, value: @date_default %>
   </div>
 
   <div class="field">
@@ -22,17 +22,17 @@
 
   <div class="field">
     <%= form.label :winner_id, style: "display: block" %>
-    <%= form.select :winner_id, @player_options %>
+    <%= form.select :winner_id, @player_options, selected: @winner_default %>
   </div>
 
   <div class="field">
     <%= form.label :loser_id, style: "display: block" %>
-    <%= form.select :loser_id, @player_options %>
+    <%= form.select :loser_id, @player_options, selected: @loser_default %>
   </div>
 
   <div class="field">
     <%= form.label :league_id, style: "display: block" %>
-    <%= form.select :league_id, @league_options %>
+    <%= form.select :league_id, @league_options, selected: @league_default %>
   </div>
 
   <div class="field">

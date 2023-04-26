@@ -7,7 +7,7 @@ class LeaguesController < ApplicationController
 
   def show
     players = @league.players.to_a
-    @players = players.sort_by { |p| -p.score(@league) }
+    @players = players.sort_by { |p| -p.result(@league)[:score] }
     # e.g. [["SimKann", 1, {"data-showurl"=>"http://localhost:3000/leagues/1"}],
     #        ["MonNight", 2, {"data-showurl"=>"http://localhost:3000/leagues/2"}]]
     @leagues = League.all.map { |l| [l.full_name, l.id, {"data-showurl" => league_url(l.id)}] }

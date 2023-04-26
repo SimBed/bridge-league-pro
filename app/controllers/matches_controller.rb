@@ -1,7 +1,7 @@
 class MatchesController < ApplicationController
   before_action :sanitize_params, only: [:create, :update]
   before_action :set_match, only: %i[edit update destroy]
-  before_action :set_options, only: %i[new edit]
+  # after_action :set_options, only: %i[new edit]
 
   def index
     @matches = Match.all
@@ -9,9 +9,11 @@ class MatchesController < ApplicationController
 
   def new
     @match = Match.new
+    set_options
   end
 
   def edit
+    set_options
   end
 
   def create
@@ -49,6 +51,10 @@ class MatchesController < ApplicationController
   def set_options
     @player_options = Player.all.map { |p| [p.name, p.id] }
     @league_options = League.all.map { |l| [l.full_name, l.id] }
+    @date_default =  @match.new_record? ? Time.zone.today : @match.date
+    @winner_default = @match.new_record? ? Player.find_by(name: 'SimBed').try(:id) : @match.winner.id
+    @loser_default = @match.new_record? ? Player.last.id : @match.loser.id
+    @league_default = @match.new_record? ? League.find_by(name: 'Starts100').try(:id) : @match.league.id
   end
 
   def match_params

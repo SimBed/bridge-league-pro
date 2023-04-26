@@ -18,6 +18,11 @@
       <th>Name</th>
       <th class="pr-3 pr-md-5">Matches</th>
       <th class="pr-3 pr-md-5">Score</th>
+      <% unless @league.loser_scores_zero?%>
+        <th class="pr-3 pr-md-5">Wins</th>
+        <th class="pr-3 pr-md-5">Losses</th>
+        <th class="pr-3 pr-md-5">Average Score</th>
+      <% end %>
       <th>Position</th>
       <th colspan="2"></th>
     </tr>
@@ -27,8 +32,13 @@
     <% @players.each_with_index do |player, index| %>
       <tr>
         <td><%= player.name %></td>
-        <td><%= player.league_matches(@league).count %></td>
-        <td><%= player.score(@league) %></td>
+        <td><%= player.matches_in(@league).size %></td>
+        <td><%= player.result(@league)[:score] %></td>
+        <% unless @league.loser_scores_zero?%>        
+          <td><%= player.matches_won_in(@league).size %></td>
+          <td><%= player.matches_lost_in(@league).size %></td>
+          <td><%= player.result(@league)[:average_score] %></td>
+        <% end %>          
         <td><%= index + 1 %></td>
       </tr>
     <% end %>

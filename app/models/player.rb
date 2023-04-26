@@ -25,16 +25,25 @@ class Player < ApplicationRecord
     (leagues_with_win + leagues_with_loss).uniq
   end
 
-  def league_matches(league)
-    matches_won.where(league_id: league.id) + matches_lost.where(league_id: league.id)
+  def matches_won_in(league)
+    matches_won.where(league_id: league.id)
+  end
+  
+  def matches_lost_in(league)
+    matches_lost.where(league_id: league.id)
+  end
+  
+  def matches_in(league)
+    matches_won_in(league) + matches_lost_in(league)
   end
 
-  def score(league)
+  def result(league)
     winning_matches = Match.where(winner_id: id).where(league_id: league.id)
     losing_matches = Match.where(loser_id: id).where(league_id: league.id)
     winning_match_scores = winning_matches.sum(:score)
     losing_match_scores = league.loser_scores_zero? ? 0 : losing_matches.sum(:score)
     score = winning_match_scores - losing_match_scores
-    score.round(2)
+    average_score = score / (winning_matches.size + losing_matches.size)
+    {score: score.round(0), average_score: average_score.round(1)}
   end
 end
