@@ -52,9 +52,9 @@ class MatchesController < ApplicationController
     @player_options = Player.all.map { |p| [p.name, p.id] }
     @league_options = League.all.map { |l| [l.full_name, l.id] }
     @date_default =  @match.new_record? ? Time.zone.today : @match.date
-    @winner_default = @match.new_record? ? Player.find_by(name: 'SimBed').try(:id) : @match.winner.id
-    @loser_default = @match.new_record? ? Player.last.id : @match.loser.id
-    @league_default = @match.new_record? ? League.find_by(name: 'Starts100').try(:id) : @match.league.id
+    @winner_default = @match.new_record? ? Player.find_by(name: cookies[:player_name]).try(:id) : @match.winner.id
+    @loser_default = @match.new_record? ? Player.find_by(name: cookies[:player_name]).try(:id) : @match.loser.id
+    @league_default = @match.new_record? ? League.find_by(name: cookies[:league_name]).try(:id) : @match.league.id
   end
 
   def match_params
