@@ -16,6 +16,7 @@ class Player < ApplicationRecord
   has_many :leagues_with_win, through: :matches_won, source: :league
   has_many :leagues_with_loss, through: :matches_lost, source: :league
   validates :name, presence: true, length: {maximum: 20}, uniqueness: {case_sensitive: false}
+  default_scope -> { order(:name) }
 
   def matches
     matches_won + matches_lost

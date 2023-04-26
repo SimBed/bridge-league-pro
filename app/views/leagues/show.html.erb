@@ -17,11 +17,10 @@
     <tr>
       <th>Name</th>
       <th class="pr-3 pr-md-5">Matches</th>
-      <th class="pr-3 pr-md-5">Score</th>
+      <th class="pr-3 pr-md-5"><%= link_to 'Score', league_path(params[:id], sort_by: 'score') %></th>
       <% unless @league.loser_scores_zero?%>
-        <th class="pr-3 pr-md-5">Wins</th>
-        <th class="pr-3 pr-md-5">Losses</th>
-        <th class="pr-3 pr-md-5">Average Score</th>
+        <th class="pr-3 pr-md-5">Win %</th>
+        <th class="pr-3 pr-md-5"><%= link_to 'Average Score', league_path(params[:id], sort_by: 'average') %></th>
       <% end %>
       <th>Position</th>
       <th colspan="2"></th>
@@ -35,8 +34,7 @@
         <td><%= player.matches_in(@league).size %></td>
         <td><%= player.result(@league)[:score] %></td>
         <% unless @league.loser_scores_zero?%>        
-          <td><%= player.matches_won_in(@league).size %></td>
-          <td><%= player.matches_lost_in(@league).size %></td>
+          <td><%= (player.matches_won_in(@league).size.to_f * 100 / player.matches_in(@league).size).round(0) %></td>
           <td><%= player.result(@league)[:average_score] %></td>
         <% end %>          
         <td><%= index + 1 %></td>

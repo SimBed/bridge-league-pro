@@ -14,6 +14,7 @@ class League < ApplicationRecord
   has_many :winners, through: :matches
   has_many :losers, through: :matches
   validates :name, presence: true, length: {maximum: 20}, uniqueness: {case_sensitive: false}
+  default_scope -> { order(created_at: :desc) }
 
   def players
     (winners + losers).uniq
