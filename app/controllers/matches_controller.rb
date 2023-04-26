@@ -5,6 +5,9 @@ class MatchesController < ApplicationController
 
   def index
     @matches = Match.all
+    # eg set cookies for new match form defaults by /matches?player_name=SimBed;league_name=Bridge
+    cookies.permanent[:player_name] =  params[:player_name] if params[:player_name]
+    cookies.permanent[:league_name] =  params[:league_name] if params[:league_name]
   end
 
   def new
