@@ -1,12 +1,6 @@
 <h5>Players <%= link_to image_tag('add.png'), new_player_path %></h5>
 
 <table id = "players_table">
-  <%# <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead> %>
 
   <tbody>
     <% @players.each do |player| %>

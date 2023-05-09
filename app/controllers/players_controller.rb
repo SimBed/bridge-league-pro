@@ -1,5 +1,5 @@
 class PlayersController < ApplicationController
-  before_action :set_player, only: %i[edit update destroy]
+  before_action :set_player, only: %i[show edit update destroy]
 
   def index
     @players = Player.all
@@ -7,6 +7,10 @@ class PlayersController < ApplicationController
 
   def new
     @player = Player.new
+  end
+  
+  def show
+    @matches = @player.matches
   end
 
   def edit

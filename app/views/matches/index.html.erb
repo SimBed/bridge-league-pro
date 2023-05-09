@@ -17,8 +17,8 @@
       <tr>
         <td><%= match.date.strftime('%d/%m/%y') %></td>
         <td><%= match.score %></td>
-        <td><%= match.winner.name %></td>
-        <td><%= match.loser.name %></td>
+        <td><%= link_to match.winner.name, match.winner %></td>
+        <td><%= link_to match.loser.name, match.loser %></td>
         <td><%= link_to match.league.name, match.league %> </td>
         <td class="pl-3 pl-md-5"><%= link_to image_tag("edit.png", class: "edit_icon"), edit_match_path(match) %></td>
         <td class="pl-md-3"><%= button_to image_tag("delete.png", class: "edit_icon"), match, method: :delete, data: { confirm: 'Are you sure?' } %></td>

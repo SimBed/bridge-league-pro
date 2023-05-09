@@ -15,6 +15,7 @@ class Match < ApplicationRecord
   belongs_to :winner, class_name: "Player"
   belongs_to :loser, class_name: "Player"
   belongs_to :league
+  scope :order_by_date, -> { order(date: :desc) }
 
   validates :date, presence: true
   validates :score, presence: true, numericality: true

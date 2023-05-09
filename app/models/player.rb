@@ -19,7 +19,7 @@ class Player < ApplicationRecord
   default_scope -> { order(:name) }
 
   def matches
-    matches_won + matches_lost
+    (matches_won + matches_lost).sort_by { |m| m.date }.reverse
   end
 
   def leagues
