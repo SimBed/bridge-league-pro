@@ -30,7 +30,7 @@
   <tbody>
     <% @players.each_with_index do |player, index| %>
       <tr>
-        <td><%= link_to player.name, player %></td>
+        <td ><%= link_to player.name, player, class: ('text-primary' if player.priority?) %></td>
         <td><%= player.matches_in(@league).size %></td>
         <td><%= player.result(@league)[:score] %></td>
         <% unless @league.loser_scores_zero?%>        

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_26_165126) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_13_043056) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,7 +43,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_26_165126) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "priority"
     t.index ["name"], name: "index_players_on_name", unique: true
+    t.index ["priority"], name: "index_players_on_priority"
   end
 
   add_foreign_key "matches", "leagues"
