@@ -32,16 +32,21 @@
       <tr>
         <td ><%= link_to player.name, player, class: ('text-primary' if player.priority?) %></td>
         <td><%= player.matches_in(@league).size %></td>
-        <td><%= player.result(@league)[:score] %></td>
+        <td><%= player.result(@league, Time.zone.now)[:score] %></td>
         <% unless @league.loser_scores_zero?%>        
           <td><%= (player.matches_won_in(@league).size.to_f * 100 / player.matches_in(@league).size).round(0) %></td>
-          <td><%= player.result(@league)[:average_score] %></td>
+          <td><%= player.result(@league, Time.zone.now)[:average_score] %></td>
         <% end %>          
         <td><%= index + 1 %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<%#= line_chart(@progress_hash) %>
+<%= line_chart @priority_players.map { |p|
+    {name: p.name, data: p.progress(@league) }
+} %>
 
 <script>
 	var userSelection = document.getElementById("show_pages");

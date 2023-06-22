@@ -16,7 +16,7 @@ class Match < ApplicationRecord
   belongs_to :loser, class_name: "Player"
   belongs_to :league
   scope :order_by_date, -> { order(date: :desc) }
-
+  scope :before, ->(date) { where('date <= ?', date) }
   validates :date, presence: true
   validates :score, presence: true, numericality: true
   # belongs_to already triggers validation error if associated record is not present

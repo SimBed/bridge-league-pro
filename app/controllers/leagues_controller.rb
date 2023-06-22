@@ -8,10 +8,11 @@ class LeaguesController < ApplicationController
   def show
     players = @league.players.to_a
     sort_by = params[:sort_by] == 'average' ? :average_score : :score
-    @players = players.sort_by { |p| -p.result(@league)[sort_by] }
+    @players = players.sort_by { |p| -p.result(@league, Time.zone.now)[sort_by] }
     # e.g. [["SimKann", 1, {"data-showurl"=>"http://localhost:3000/leagues/1"}],
     #        ["MonNight", 2, {"data-showurl"=>"http://localhost:3000/leagues/2"}]]
     @leagues = League.all.map { |l| [l.full_name, l.id, {"data-showurl" => league_url(l.id)}] }
+    @priority_players = @league.players.select { |p| p.priority? }
   end
 
   def new

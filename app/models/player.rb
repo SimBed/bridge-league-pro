@@ -38,13 +38,23 @@ class Player < ApplicationRecord
     matches_won_in(league) + matches_lost_in(league)
   end
 
-  def result(league)
-    winning_matches = Match.where(winner_id: id).where(league_id: league.id)
-    losing_matches = Match.where(loser_id: id).where(league_id: league.id)
-    winning_match_scores = winning_matches.sum(:score)
-    losing_match_scores = league.loser_scores_zero? ? 0 : losing_matches.sum(:score)
-    score = winning_match_scores - losing_match_scores
-    average_score = score / (winning_matches.size + losing_matches.size)
+  def result(league, date)
+    winning_matches = Match.before(date).where(winner_id: id).where(league_id: league.id)
+    losing_matches = Match.before(date).where(loser_id: id).where(league_id: league.id)
+    winning_match_scores = winning_matches&.sum(:score)
+    losing_match_scores = league.loser_scores_zero? ? 0 : losing_matches&.sum(:score)
+    score = (winning_match_scores || 0) - (losing_match_scores || 0)
+    denominator = winning_matches.size + losing_matches.size
+    average_score = denominator.nonzero? ? score / denominator : 0
     {score: score.round(0), average_score: average_score.round(1)}
+  end
+
+  def progress(league)
+    hash = Hash.new
+    # match_days = matches_in(league).map(&:date).uniq.sort
+    league_matches = matches_in(league).sort_by { |m| m.created_at }
+    # match_days.each { |d| hash[d.to_s] = result(league, d)[:score] }
+    league_matches.each_with_index { |m, index| hash[index] = result(league, m.created_at)[:score] }
+    hash
   end
 end
