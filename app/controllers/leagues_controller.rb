@@ -12,7 +12,7 @@ class LeaguesController < ApplicationController
     # e.g. [["SimKann", 1, {"data-showurl"=>"http://localhost:3000/leagues/1"}],
     #        ["MonNight", 2, {"data-showurl"=>"http://localhost:3000/leagues/2"}]]
     @leagues = League.all.map { |l| [l.full_name, l.id, {"data-showurl" => league_url(l.id)}] }
-    @priority_players = @league.players.select { |p| p.priority? }
+    @priority_players = @league.players.select { |p| p.priority? } if params[:chart] == 'show'
   end
 
   def new
