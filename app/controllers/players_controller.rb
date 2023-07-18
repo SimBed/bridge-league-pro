@@ -13,7 +13,7 @@ class PlayersController < ApplicationController
     set_league
     @leagues = [['All', nil ,{"data-showurl" => player_path(@player)}]] +
                 @player.leagues.map { |l| [l.full_name, l.id, {"data-showurl" => player_url(@player.id, {league_id: l.id})}] }
-    @matches = @player.matches_in(@league)
+    @matches = @player.matches_in(@league).order(date: :desc, created_at: :desc)
     extreme_scores = @player.extreme_score(@league)
     runs = @player.runs(@league)
     @player_summary = {

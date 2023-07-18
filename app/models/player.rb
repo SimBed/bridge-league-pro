@@ -18,20 +18,6 @@ class Player < ApplicationRecord
   validates :name, presence: true, length: {maximum: 20}, uniqueness: {case_sensitive: false}
   scope :order_by_priority_name, -> { order(priority: :desc, name: :asc) }
 
-  # def matches
-  #   matches_won_ids = matches_won.pluck(:id).join(',')
-  #   matches_lost_ids = matches_lost.pluck(:id).join(',')
-  #   matches_ids = (matches_won_ids + "," + matches_lost_ids)
-  #   Match.select('*').from('matches').where(id: matches_ids.split(',')).order(date: :desc) 
-  # end
-
-  # def matches
-  #   (matches_won + matches_lost).sort_by { |m| m.date }.reverse
-  # end  
-
-  # def leagues
-  #   (leagues_with_win + leagues_with_loss).uniq
-  # end
   def leagues
     leagues_with_win_ids = leagues_with_win.pluck(:id).join(',')
     leagues_with_loss_ids = leagues_with_loss.pluck(:id).join(',')
@@ -51,12 +37,8 @@ class Player < ApplicationRecord
     matches_won_ids = (league.is_a?(League) ? matches_won.where(league_id: league.id) : matches_won).pluck(:id).join(',')
     matches_lost_ids = (league.is_a?(League) ? matches_lost.where(league_id: league.id) : matches_lost).pluck(:id).join(',')
     matches_ids = (matches_won_ids + "," + matches_lost_ids)
-    Match.select('*').from('matches').where(id: matches_ids.split(',')) #.order(date: :desc)
+    Match.select('*').from('matches').where(id: matches_ids.split(','))
   end
-  
-  # def matches_in(league)
-  #   matches_won_in(league) + matches_lost_in(league)
-  # end
 
   def result(league, date)
     winning_matches = Match.before(date).where(winner_id: id).where(league_id: league.id)
@@ -71,10 +53,7 @@ class Player < ApplicationRecord
 
   def progress(league)
     hash = Hash.new
-    # match_days = matches_in(league).map(&:date).uniq.sort
-    # league_matches = matches_in(league).sort_by { |m| m.created_at }
     league_matches = matches_in(league).order(:date, :created_at)
-    # match_days.each { |d| hash[d.to_s] = result(league, d)[:score] }
     league_matches.each_with_index { |m, index| hash[index] = result(league, m.created_at)[:score] }
     hash
   end
