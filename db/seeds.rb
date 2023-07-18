@@ -1,7 +1,8 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
+Match.create!(date: Date.today, score: 3, winner_id: 2, loser_id: 1, league_id: 1)
+Match.create!(date: Date.today.advance(days:1), score: 5, winner_id: 2, loser_id: 1, league_id: 1)
+Match.create!(date: Date.today.advance(days:2), score: 7, winner_id: 2, loser_id: 1, league_id: 1)
+Match.create!(date: Date.today.advance(days:3), score: 4, winner_id: 1, loser_id: 2, league_id: 1)
+Match.create!(date: Date.today.advance(days:4), score: 19, winner_id: 2, loser_id: 1, league_id: 1)
+Match.create!(date: Date.today.advance(days:5), score: 11, winner_id: 1, loser_id: 2, league_id: 1)
+Match.create!(date: Date.today.advance(days:6), score: 6, winner_id: 2, loser_id: 1, league_id: 1)
+Match.create!(date: Date.today.advance(days:7), score: 0, winner_id: 1, loser_id: 2, league_id: 1)

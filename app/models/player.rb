@@ -16,27 +16,47 @@ class Player < ApplicationRecord
   has_many :leagues_with_win, through: :matches_won, source: :league
   has_many :leagues_with_loss, through: :matches_lost, source: :league
   validates :name, presence: true, length: {maximum: 20}, uniqueness: {case_sensitive: false}
-  default_scope -> { order(:priority, :name) }
+  scope :order_by_priority_name, -> { order(priority: :desc, name: :asc) }
 
-  def matches
-    (matches_won + matches_lost).sort_by { |m| m.date }.reverse
-  end
+  # def matches
+  #   matches_won_ids = matches_won.pluck(:id).join(',')
+  #   matches_lost_ids = matches_lost.pluck(:id).join(',')
+  #   matches_ids = (matches_won_ids + "," + matches_lost_ids)
+  #   Match.select('*').from('matches').where(id: matches_ids.split(',')).order(date: :desc) 
+  # end
 
+  # def matches
+  #   (matches_won + matches_lost).sort_by { |m| m.date }.reverse
+  # end  
+
+  # def leagues
+  #   (leagues_with_win + leagues_with_loss).uniq
+  # end
   def leagues
-    (leagues_with_win + leagues_with_loss).uniq
+    leagues_with_win_ids = leagues_with_win.pluck(:id).join(',')
+    leagues_with_loss_ids = leagues_with_loss.pluck(:id).join(',')
+    league_ids = (leagues_with_win_ids + "," + leagues_with_loss_ids)
+    League.select('*').from('leagues').where(id: league_ids.split(','))
   end
 
   def matches_won_in(league)
-    matches_won.where(league_id: league.id)
+    league.is_a?(League) ? matches_won.where(league_id: league.id) : matches_won
   end
   
   def matches_lost_in(league)
-    matches_lost.where(league_id: league.id)
+    league.is_a?(League) ? matches_lost.where(league_id: league.id) : matches_lost
+  end
+
+  def matches_in(league)
+    matches_won_ids = (league.is_a?(League) ? matches_won.where(league_id: league.id) : matches_won).pluck(:id).join(',')
+    matches_lost_ids = (league.is_a?(League) ? matches_lost.where(league_id: league.id) : matches_lost).pluck(:id).join(',')
+    matches_ids = (matches_won_ids + "," + matches_lost_ids)
+    Match.select('*').from('matches').where(id: matches_ids.split(',')) #.order(date: :desc)
   end
   
-  def matches_in(league)
-    matches_won_in(league) + matches_lost_in(league)
-  end
+  # def matches_in(league)
+  #   matches_won_in(league) + matches_lost_in(league)
+  # end
 
   def result(league, date)
     winning_matches = Match.before(date).where(winner_id: id).where(league_id: league.id)
@@ -52,9 +72,20 @@ class Player < ApplicationRecord
   def progress(league)
     hash = Hash.new
     # match_days = matches_in(league).map(&:date).uniq.sort
-    league_matches = matches_in(league).sort_by { |m| m.created_at }
+    # league_matches = matches_in(league).sort_by { |m| m.created_at }
+    league_matches = matches_in(league).order(:date, :created_at)
     # match_days.each { |d| hash[d.to_s] = result(league, d)[:score] }
     league_matches.each_with_index { |m, index| hash[index] = result(league, m.created_at)[:score] }
     hash
+  end
+
+  def extreme_score(league)
+    { biggest_win: matches_won_in(league).maximum(:score) || 0, biggest_loss: matches_lost_in(league).maximum(:score) || 0 }
+  end
+
+  def runs(league)
+    scores = matches_in(league).order(:date, :created_at).pluck(:winner_id)
+    {wins: scores.chunk_while { |i, j| (i == id) && (j == id) }.to_a.map { |run| run.length }.max,
+    losses: scores.chunk_while { |i, j| (i != id) && (j != id) }.to_a.map { |run| run.length }.max}
   end
 end

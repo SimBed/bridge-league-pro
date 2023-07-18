@@ -25,7 +25,7 @@
         <th class="pr-3 pr-md-5"><%= link_to 'Score', league_path(params[:id], sort_by: 'score') %></th>
         <% unless @league.loser_scores_zero?%>
           <th class="pr-3 pr-md-5">Win %</th>
-          <th class="pr-3 pr-md-5"><%= link_to 'Average Score', league_path(params[:id], sort_by: 'average') %></th>
+          <th class="pr-3 pr-md-5"><%= link_to 'Average Score', league_path(params[:id], sort_by: 'average') %></th>      
         <% end %>
         <th>Position</th>
         <th colspan="2"></th>
@@ -35,7 +35,7 @@
     <tbody>
       <% @players.each_with_index do |player, index| %>
         <tr>
-          <td ><%= link_to player.name, player, class: ('text-primary' if player.priority?) %></td>
+          <td><%= link_to player.name, player, class: ('text-primary' if player.priority?) %></td>
           <td><%= player.matches_in(@league).size %></td>
           <td><%= player.result(@league, Time.zone.now)[:score] %></td>
           <% unless @league.loser_scores_zero?%>        

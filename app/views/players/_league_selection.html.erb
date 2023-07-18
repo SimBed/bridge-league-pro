@@ -1,0 +1,12 @@
+<select id="league_dropdown">
+  <%= options_for_select(@leagues, params[:league_id]) %>
+</select>
+
+<script>
+	var userSelection = document.getElementById("league_dropdown");
+  userSelection.onchange = function(event){
+    var show_url = event.target.options[event.target.selectedIndex].dataset.showurl;
+    window.location.replace(show_url);
+  };
+
+</script>
