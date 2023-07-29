@@ -9,17 +9,22 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "custom", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <%# <meta name="turbo-visit-control" content="reload"> %>
     <script src="https://kit.fontawesome.com/52a30c356b.js" crossorigin="anonymous"></script>
 
     <meta charset="utf-8">
     <meta property="og:title" content= "Monopoly Deal League">
     <meta property="og:type" content="website">
+    <meta property="og:image" content = <%= image_url 'bridgeleaguepro.svg' %> >
+    <meta property="og:image:secure_url" content = <%= image_url 'bridgeleaguepro.svg' %> >    
     <meta property="og:url" content="https://monodeal.fly.dev">
   </head>
 
   <body>
     <%= render 'layouts/header' %>
-    <main class= 'container'>
+    <main class= 'container navbar-headroom'>
       <div id="flash_messages">
         <% flash.each do |message_type, message| %>
           <div class="alert alert-<%= message_type %>"><%= message %></div>
