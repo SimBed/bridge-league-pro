@@ -7,8 +7,9 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "example", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "custom", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <script src="https://kit.fontawesome.com/52a30c356b.js" crossorigin="anonymous"></script>
 
     <meta charset="utf-8">
     <meta property="og:title" content= "Monopoly Deal League">
@@ -18,13 +19,15 @@
 
   <body>
     <%= render 'layouts/header' %>
-    <main>
+    <main class= 'container'>
       <div id="flash_messages">
         <% flash.each do |message_type, message| %>
           <div class="alert alert-<%= message_type %>"><%= message %></div>
         <% end %>
       </div>
-      <%= yield %>
+      <div class="mt-3">
+        <%= yield %>
+      </div>
       <%= debug(params) if Rails.env.development? %>
     </main>
   </body>

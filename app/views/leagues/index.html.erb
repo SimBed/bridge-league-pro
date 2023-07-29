@@ -1,38 +1,40 @@
-<h5>Leagues <%= link_to image_tag('add.png'), new_league_path %></h5>
+<h5 class='mb-4'>Leagues 
+  <%= link_to new_league_path do %>
+    <i class="bi bi-database-fill-add"></i>
+  <% end %>
+</h5>
 
-<table>
-  <thead>
-    <tr>
-      <th>Season</th>
-      <th>Name</th>
-      <th class="pr-3 pr-md-5">Matches</th>
-      <th class="pr-3 pr-md-5">Players</th>
-      <%# <th class="pr-3 pr-md-5">First Match</th>
-      <th class="pr-3 pr-md-5">Last Match</th> %>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @leagues.each do |league| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= league.season %></td>
-        <td><%= league.name %></td>
-        <td class="pr-3 pr-md-5 text-center"><%= league.matches.count %></td>
-        <td class="pr-3 pr-md-5 text-center"><%= league.players.count %></td>
-        <%# <td class="ago"><%#= time_ago(league.matches.order_by_date.last&.date) %><!--/td>
-        <!--td class="ago"><%#= time_ago(league.matches.order_by_date.first&.date) %></td> %>
-        <!--td><%#= league.matches.order_by_date.last&.date&.strftime('%d/%m/%y') %></td-->
-        <!--td><%#= league.matches.order_by_date.first&.date&.strftime('%d/%m/%y') %></td-->
-        <td><%= link_to league do %>
-          <i class="bi bi-arrow-right-circle-fill"></i>
-          <% end %>
-        </td>
-        <td class="pl-3 pl-md-5"><%= link_to image_tag("edit.png", class: "edit_icon"), edit_league_path(league) %></td>
-        <td class="pl-md-3"><%= button_to image_tag("delete.png", class: "edit_icon"), league, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      <%# link_to (tag.i class: ["bi", "bi-basket", ("sellonline" unless product.sellonline?)]), admin_product_path(product, sellonline: !product.sellonline?), method: :patch %>
+        <th>Season</th>
+        <th>Name</th>
+        <th class="">Matches</th>
+        <th class="pe-3">Players</th>
+        <th colspan="2"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @leagues.each do |league| %>
+        <tr>
+          <td><%= league.season %></td>
+          <td><%= link_to league.name, league %></td>
+          <td class="text-center"><%= league.matches.count %></td>
+          <td class="ps-2 pe-3 pe-md-5 text-center"><%= league.players.count %></td>
+          <td class="px-2"><%= link_to edit_league_path(league) do %>
+            <i class="bi bi-pencil-fill"></i>
+            <% end %>
+          </td>
+          <!--td class="px-2"><%#= link_to image_tag("edit.png", class: "edit-icon"), edit_league_path(league) %></td-->
+          <td class="px-2"><%= button_to league, method: :delete, data: { confirm: 'Are you sure?' } do %>
+            <i class="bi bi-trash-fill"></i>
+            <% end %>
+          </td>
+          <!--td class="px-1"><%#= button_to image_tag("delete.png", class: "edit-icon"), league, method: :delete, data: { confirm: 'Are you sure?' } %></td-->
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 

@@ -1,32 +1,21 @@
-<!-- animation with greensock -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
-
-<nav class="navbar1 mb-2">
-  <ul class="navbar-nav">
-
-    <li class="nav-item home">
-      <%= link_to players_path, class: "nav-link" do %>
-        <%= image_tag("cards.png", class: "style_icon", id: "testid") %>
-        <span class="link-text logo-text">Players</span>
-      <% end %>
-    </li>
-
-      <li class="nav-item">
-        <%= link_to matches_path, class: "nav-link" do %>
-          <%= image_tag("cards.png", class: "style_icon") %>
-          <span class="link-text">Matches</span>
-        <% end %>
-      </li>
-
-      <li class="nav-item">
-        <%= link_to leagues_path, class: "nav-link" do %>
-          <%= image_tag("cards.png", class: "style_icon") %>
-          <span class="link-text">Leagues</span>
-        <% end %>
-      </li>
-  </ul>
-
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid py-3">
+    <%= link_to 'bridge league  pro', root_path, class: "navbar-brand me-5" %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <%= link_to "Players", players_path, class: "nav-link"%>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Matches", matches_path, class: "nav-link"%>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Leagues", leagues_path, class: "nav-link"%>
+        </li>
+      </ul>
+    </div>
+  </div>
 </nav>
-<%# <script>
-  gsap.from(".style_icon", {duration: 0.8, x: 150, stagger: 0.3});
-</script> %>

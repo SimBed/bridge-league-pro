@@ -1,16 +1,24 @@
-<h5>Players <%= link_to image_tag('add.png'), new_player_path %></h5>
-
+<h5 class='mb-4'>Players 
+  <%= link_to new_player_path do %>
+    <i class="bi bi-person-fill-add"></i>
+  <% end %>
+</h5>
+    
 <table id = "players_table">
 
   <tbody>
     <% @players.each do |player| %>
       <tr>
-        <td class="<%='text-primary' if player.priority?%>"><%= link_to player.name, player %></td>
-        <td class="pl-3 pl-md-5"><%= link_to image_tag("edit.png", class: "edit_icon"), edit_player_path(player[:id]) %></td>
-        <td class="pl-md-3"><%= button_to image_tag("delete.png", class: "edit_icon"), player_path(player[:id]), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to player.name, player, class: ('text-primary' if player.priority?) %></td>
+        <td class="px-2"><%= link_to edit_player_path(player[:id]) do %>
+          <i class="bi bi-pencil-fill"></i>
+          <% end %>
+        </td>        
+        <td class="px-2"><%= button_to player_path(player[:id]), method: :delete, data: { confirm: 'Are you sure?' } do %>
+          <i class="bi bi-trash-fill"></i>
+          <% end %>
+        </td>        
       </tr>
     <% end %>
   </tbody>
 </table>
-
-
