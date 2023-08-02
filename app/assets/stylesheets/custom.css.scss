@@ -185,3 +185,13 @@ button {
 nav.disappear {
   transform: translateY(-100%);
 }
+
+.match-league-data {
+  font-size: 0.7rem;
+}
+
+@media screen and (min-width: 600px) {
+  .match-league-data {
+    font-size: 1.0rem;
+  }
+ }

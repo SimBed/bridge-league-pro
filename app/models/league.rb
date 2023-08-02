@@ -14,7 +14,8 @@ class League < ApplicationRecord
   # https://stackoverflow.com/questions/5846638/how-to-display-unique-records-from-a-has-many-through-relationship
   has_many :winners,  -> { distinct }, through: :matches
   has_many :losers,  -> { distinct }, through: :matches
-  validates :name, presence: true, length: {maximum: 20}, uniqueness: {case_sensitive: false}
+  validates :name, presence: true, length: {maximum: 20}
+  validate :unique_leaague_season_combo
   default_scope -> { order(created_at: :desc) }
 
   def full_name
@@ -38,7 +39,15 @@ class League < ApplicationRecord
     Player.select('*').from('players').where(id: player_ids.split(','))
   end
 
-  def players2
-    (winners + losers).uniq
-  end  
+  # def players2
+  #   (winners + losers).uniq
+  # end
+
+  private
+  def unique_leaague_season_combo
+    league = League.where(['name = ? and season = ?', name, season]).first
+    return if league.blank?
+
+    errors.add(:base, 'A league with this name for this season already exists')
+  end
 end
