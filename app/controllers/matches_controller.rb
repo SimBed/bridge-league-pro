@@ -20,9 +20,11 @@ class MatchesController < ApplicationController
   end
 
   def create
+    # cookies.permanent[:player_name] = params[:player_name] if params[:player_name]
     @match = Match.new(match_params)
     if @match.save
       flash[:success] = "Match was successfully created."
+      # notify_opponent
       redirect_to matches_path
     else
       set_options
@@ -47,6 +49,9 @@ class MatchesController < ApplicationController
 
   private
 
+  # def notify_opponent
+  # end
+
   def set_match
     @match = Match.find(params[:id])
   end
@@ -65,8 +70,13 @@ class MatchesController < ApplicationController
   end
 
   def sanitize_params
-    params[:match][:winner_id] = params[:match][:winner_id].to_i
-    params[:match][:loser_id] = params[:match][:loser_id].to_i
-    params[:match][:league_id] = params[:match][:league_id].to_i
+    params[:match].tap do |params_match|
+      params_match[:winner_id] = params_match[:winner_id].to_i if params_match[:winner_id]
+      params_match[:winner_id] = params_match[:winner_id].to_i if params_match[:winner_id]
+      params_match[:winner_id] = params_match[:winner_id].to_i if params_match[:winner_id]
+    end
+    # params[:match][:winner_id] = params[:match][:winner_id].to_i
+    # params[:match][:loser_id] = params[:match][:loser_id].to_i
+    # params[:match][:league_id] = params[:match][:league_id].to_i
   end
 end

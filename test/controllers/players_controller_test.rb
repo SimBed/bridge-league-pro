@@ -2,47 +2,47 @@ require "test_helper"
 
 class PlayersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @player = players(:one)
+    @player = players(:Daniel)
   end
 
   test "should get index" do
-    get players_url
+    get players_path
     assert_response :success
   end
 
   test "should get new" do
-    get new_player_url
+    get new_player_path
     assert_response :success
   end
 
   test "should create player" do
     assert_difference("Player.count") do
-      post players_url, params: {player: {name: @player.name}}
+      post players_path, params: {player: {name: 'Andy'}}
     end
 
-    assert_redirected_to player_url(Player.last)
+    assert_redirected_to players_path
   end
 
   test "should show player" do
-    get player_url(@player)
+    get player_path(@player)
     assert_response :success
   end
 
   test "should get edit" do
-    get edit_player_url(@player)
+    get edit_player_path(@player)
     assert_response :success
   end
 
   test "should update player" do
-    patch player_url(@player), params: {player: {name: @player.name}}
-    assert_redirected_to player_url(@player)
+    patch player_path(@player), params: {player: {name: @player.name}}
+    assert_redirected_to players_path
   end
 
   test "should destroy player" do
     assert_difference("Player.count", -1) do
-      delete player_url(@player)
+      delete player_path(@player)
     end
 
-    assert_redirected_to players_url
+    assert_redirected_to players_path
   end
 end

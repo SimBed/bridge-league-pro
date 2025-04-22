@@ -15,8 +15,9 @@ ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1"
 
 # Update gems and bundler
-RUN gem update --system --no-document && \
-    gem install -N bundler
+# DPS: removed due to error on deploy and chatgpt advice
+# RUN gem update --system --no-document && \
+#     gem install -N bundler
 
 
 # Throw-away build stage to reduce size of final image

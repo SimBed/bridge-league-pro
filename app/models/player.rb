@@ -9,8 +9,8 @@
 #
 class Player < ApplicationRecord
   # https://stackoverflow.com/questions/2057210/ruby-on-rails-reference-the-same-model-twice
-  has_many :matches_won, class_name: "Match", foreign_key: "winner_id"
-  has_many :matches_lost, class_name: "Match", foreign_key: "loser_id"
+  has_many :matches_won, class_name: "Match", foreign_key: "winner_id", dependent: :destroy
+  has_many :matches_lost, class_name: "Match", foreign_key: "loser_id", dependent: :destroy
   # can't work out how to player.leagues
   # has_many :leagues, through: :matches_lost
   has_many :leagues_with_win, through: :matches_won, source: :league
@@ -54,7 +54,7 @@ class Player < ApplicationRecord
   def progress(league)
     hash = Hash.new
     league_matches = matches_in(league).order(:date, :created_at)
-    league_matches.each_with_index { |m, index| hash[index] = result(league, m.created_at)[:score] }
+    league_matches.each_with_index { |m, index| hash[index] = result(league, m.date)[:score] }
     hash
   end
 
@@ -62,6 +62,7 @@ class Player < ApplicationRecord
     { biggest_win: matches_won_in(league).maximum(:score) || 0, biggest_loss: matches_lost_in(league).maximum(:score) || 0 }
   end
 
+  # TODO not correct for zero losses?
   def runs(league)
     scores = matches_in(league).order(:date, :created_at).pluck(:winner_id)
     {wins: scores.chunk_while { |i, j| (i == id) && (j == id) }.to_a.map { |run| run.length }.max,

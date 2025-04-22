@@ -1,17 +1,9 @@
-# == Schema Information
-#
-# Table name: leagues
-#
-#  id                :bigint           not null, primary key
-#  name              :string
-#  season            :string
-#  loser_scores_zero :boolean          default(FALSE)
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#
+league1:
+  name: premier
+  season: april25
+  loser_scores_zero: true
 
-one:
-  name: MyString
-
-two:
-  name: MyString
+league2:
+  name: champions
+  season: may25
+  loser_scores_zero: true
