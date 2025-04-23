@@ -1,2 +1,3 @@
-<h5>Editing match</h5>
-<%= render "form", match: @match %>
+<%= turbo_frame_tag @match do %>
+  <%= render "form", match: @match %>
+<% end %>

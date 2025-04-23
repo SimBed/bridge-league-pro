@@ -2,7 +2,7 @@ class LeaguesController < ApplicationController
   before_action :set_league, only: %i[show edit update destroy]
 
   def index
-    @leagues = League.all
+    @leagues = League.includes(:winners, :losers, :matches)
   end
 
   def show

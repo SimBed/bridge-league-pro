@@ -1,2 +1,5 @@
-<h5>New match</h5>
-<%= render "form", match: @match %>
+<%= turbo_frame_tag @match do %>
+  <div class="col-md-6 mb-4">
+    <%= render "form", match: @match %>
+  </div>
+<% end %>

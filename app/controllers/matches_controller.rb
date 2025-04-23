@@ -4,10 +4,14 @@ class MatchesController < ApplicationController
   # after_action :set_options, only: %i[new edit]
 
   def index
-    @matches = Match.order_by_date
+    @matches = Match.includes(:winner, :loser, :league).order_by_date
     # eg set cookies for new match from defaults by /matches?player_name=SimBed;league_name=Bridge
     cookies.permanent[:player_name] =  params[:player_name] if params[:player_name]
     cookies.permanent[:league_name] =  params[:league_name] if params[:league_name]
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   def new

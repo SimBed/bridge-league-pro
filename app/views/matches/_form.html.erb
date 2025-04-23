@@ -1,4 +1,4 @@
-<%= form_with(model: match) do |form| %>
+<%= form_with(model: match, class: 'admin_form pt-4 my-2') do |form| %>
   <% if match.errors.any? %>
     <div style="color: red">
       <h6><%= pluralize(match.errors.count, "error") %> prohibited this match from being saved:</h6>
@@ -35,7 +35,13 @@
     <%= form.select :league_id, @league_options, selected: @league_default %>
   </div>
 
-  <div class="field">
+  <div class="actions mt-3">
     <%= form.submit %>
   </div>
+
+  <% if match.new_record? %>
+    <div class='cancel' data-controller="form-cancel"><%= link_to 'X', '#', data: { action: 'form-cancel#cancel' } %> </div>  
+  <% else %>
+    <div class='cancel'><%= link_to 'X', matches_path %> </div>  
+  <% end %>
 <% end %>

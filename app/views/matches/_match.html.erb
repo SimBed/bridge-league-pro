@@ -1,0 +1,19 @@
+<%= turbo_frame_tag match do %>
+  <div class="row">
+    <div class="column col-2x">
+      <%= match.date.strftime('%d/%m/%y') %>
+    </div>
+    <div class="column col-2x"><%= match.score %></div>
+    <div class="column col-2x"><%= link_to match.winner.name, match.winner, data: {turbo: false} %></div>
+    <div class="column col-2x"><%= link_to match.loser.name, match.loser, data: {turbo: false} %></div>
+    <div class="column col-2x"><%= link_to match.league.name, match.league, data: {turbo: false} %></div>
+    <div class="column col-2x"><%= match.league.season %></div>
+    <div class="column nomobile"><%= link_to edit_match_path(match, data: {turbo_frame: dom_id(match)}) do %>
+                                      <i class="bi bi-pencil-fill"></i>
+                                    <% end %>
+    </div>       
+  </div>
+<% end %>
+
+
+

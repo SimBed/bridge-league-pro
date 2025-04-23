@@ -1,0 +1,8 @@
+<%= turbo_stream.update "matches" do %>
+  <%= render partial: "matches_table" %>
+<% end %>
+<%= turbo_stream.update "new_match" do %>
+  <%= render inline:'' %>
+<% end %>
+<%#= turbo_stream.prepend "flash", partial: "partials/flashes" %>
+<%= turbo_stream.prepend("flash", partial: "layouts/flash") %>

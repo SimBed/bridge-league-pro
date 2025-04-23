@@ -1,42 +1,10 @@
 <h5 class='mb-4'>Matches 
-  <%= link_to new_match_path do %>
-    <i class="bi bi-plus-circle-fill"></i>
+  <%= link_to new_match_path, data: { turbo_frame: dom_id(Match.new)} do %>
+    <i class="bi bi-database-fill-add"></i>
   <% end %>
 </h5>
+<%= turbo_frame_tag Match.new %>
 
-<table class="match-league-data" id="matches_table">
-  <thead>
-    <tr>
-       <th>Date</th>
-      <th class="pr-2 pr-md-5">Score</th>
-      <th>Winner</th>
-      <th>Loser</th>
-      <th>League</th>
-      <th>Season</th>
-      <th colspan="1"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @matches.each do |match| %>
-      <tr>
-        <td><%= match.date.strftime('%d/%m/%y') %></td>
-        <td><%= match.score %></td>
-        <td><%= link_to match.winner.name, match.winner %></td>
-        <td><%= link_to match.loser.name, match.loser %></td>
-        <td class="pe-2 pe-md-5"><%= link_to match.league.name, match.league %> </td>
-        <td class="pe-2 pe-md-5"><%= match.league.season %> </td>
-        <td class="px-2"><%= link_to edit_match_path(match) do %>
-          <i class="bi bi-pencil-fill"></i>
-          <% end %>
-        </td>
-        <!--td class="px-2"><%#= button_to match, method: :delete, data: { confirm: 'Are you sure?' } do %>
-          <i class="bi bi-trash-fill"></i>
-          <%# end %>
-        </td-->
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-
+<%= turbo_frame_tag 'matches' do %>
+  <%= render 'matches_table' %> 
+<% end %>
