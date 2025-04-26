@@ -1,0 +1,23 @@
+<div id="matches-filter" class="container px-2 mb-5">
+  <div class="container search">
+    <hr class = "search mb-3"></hr>
+
+    <%= form_with(url: filter_matches_path, method: "get", class: "form-class", data: {turbo_frame: "matches"}) do %>
+      <div class="container mb-1 px-1">
+        <div class="row">
+          
+          <div class="col-4 px-0">
+            <fieldset class="">
+              <legend class='d-block'>League</legend>          
+              <select name="league" class= "sort d-block" onchange="this.form.requestSubmit()">
+                <%= options_for_select @league_options, session[:league] %>
+              </select>
+            </fieldset>          
+          </div>
+
+        </div>
+      </div>
+    <% end %>
+    <hr class = "search mb-3"></hr>
+  </div>
+</div>

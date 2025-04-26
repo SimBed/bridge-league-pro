@@ -4,14 +4,11 @@ class MatchesController < ApplicationController
   # after_action :set_options, only: %i[new edit]
 
   def index
-    @matches = Match.includes(:winner, :loser, :league).order_by_date
-    # eg set cookies for new match from defaults by /matches?player_name=SimBed;league_name=Bridge
-    cookies.permanent[:player_name] =  params[:player_name] if params[:player_name]
-    cookies.permanent[:league_name] =  params[:league_name] if params[:league_name]
-    respond_to do |format|
-      format.html
-      format.turbo_stream
-    end
+    handle_selection
+    # @matches = Match.includes(:winner, :loser, :league).order_by_date
+    crude_login
+    set_selections
+    handle_index_response
   end
 
   def new
@@ -51,6 +48,12 @@ class MatchesController < ApplicationController
     redirect_to matches_path
   end
 
+  def filter
+    clear_session(:league)
+    session[:league] = params[:league] || session[:league]
+    redirect_to matches_path
+  end
+
   private
 
   # def notify_opponent
@@ -67,6 +70,28 @@ class MatchesController < ApplicationController
     @winner_default = @match.new_record? ? Player.find_by(name: cookies[:player_name]).try(:id) : @match.winner.id
     @loser_default = @match.new_record? ? Player.find_by(name: cookies[:player_name]).try(:id) : @match.loser.id
     @league_default = @match.new_record? ? League.find_by(name: cookies[:league_name]).try(:id) : @match.league.id
+  end
+
+  def handle_selection
+    session[:league] = session[:league] || League.order_by_created_at.first.id
+    @matches = Match.where(league_id: session[:league].to_i).order_by_date.includes(:winner, :loser, :league)
+  end
+
+  def crude_login
+    # eg set cookies for new match from defaults by /matches?player_name=SimBed;league_name=Bridge
+    cookies.permanent[:player_name] =  params[:player_name] if params[:player_name]
+    cookies.permanent[:league_name] =  params[:league_name] if params[:league_name]
+  end
+
+  def set_selections
+    @league_options = League.order_by_created_at.map { |league| [league.full_name, league.id] }
+  end
+
+  def handle_index_response
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   def match_params

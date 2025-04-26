@@ -4,7 +4,9 @@
   <% end %>
 </h5>
 <%= turbo_frame_tag Match.new %>
-
-<%= turbo_frame_tag 'matches' do %>
-  <%= render 'matches_table' %> 
+<%= turbo_frame_tag 'matches-and-filter' do %>
+  <%= render 'filter_form' %>
+  <%= turbo_frame_tag 'matches' do %>
+    <%= render 'matches_table' %> 
+  <% end %>
 <% end %>

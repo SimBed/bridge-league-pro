@@ -16,7 +16,7 @@ class League < ApplicationRecord
   has_many :losers,  -> { distinct }, through: :matches
   validates :name, presence: true, length: {maximum: 20}
   validate :unique_leaague_season_combo
-  default_scope -> { order(created_at: :desc) }
+  scope :order_by_created_at, -> { order(created_at: :desc) }
 
   def full_name
     "#{season} #{name}"
