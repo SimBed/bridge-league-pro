@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_05_115828) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_29_104759) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_05_115828) do
     t.boolean "loser_scores_zero", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "activity", default: "Bridge", null: false
+    t.integer "match_total"
+    t.index ["activity"], name: "index_leagues_on_activity"
     t.index ["name"], name: "index_leagues_on_name"
     t.index ["season"], name: "index_leagues_on_season"
   end

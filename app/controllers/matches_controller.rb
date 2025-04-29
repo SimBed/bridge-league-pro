@@ -64,8 +64,8 @@ class MatchesController < ApplicationController
   end
 
   def set_options
-    @player_options = Player.order_by_priority_name.map { |p| [p.name, p.id] }
-    @league_options = League.all.map { |l| [l.full_name, l.id] }
+    @player_options = Player.order_by_priority_name.map { |player| [player.name, player.id] }
+    @league_options = League.order_by_created_at.map { |league| [league.full_name, league.id] }
     @date_default =  @match.new_record? ? Time.zone.today : @match.date
     @winner_default = @match.new_record? ? Player.find_by(name: cookies[:player_name]).try(:id) : @match.winner.id
     @loser_default = @match.new_record? ? Player.find_by(name: cookies[:player_name]).try(:id) : @match.loser.id

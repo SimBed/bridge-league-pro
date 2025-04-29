@@ -1,22 +1,29 @@
-# == Schema Information
-#
-# Table name: leagues
-#
-#  id                :bigint           not null, primary key
-#  name              :string
-#  season            :string
-#  loser_scores_zero :boolean          default(FALSE)
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#
 class League < ApplicationRecord
   has_many :matches, dependent: :destroy
   # https://stackoverflow.com/questions/5846638/how-to-display-unique-records-from-a-has-many-through-relationship
   has_many :winners,  -> { distinct }, through: :matches
   has_many :losers,  -> { distinct }, through: :matches
   validates :name, presence: true, length: {maximum: 20}
-  validate :unique_leaague_season_combo
+  validate :unique_league_season_combo
   scope :order_by_created_at, -> { order(created_at: :desc) }
+
+  def winner_name
+    leader = leader() #hopefully this sets local variable leader to the return of method leader
+    return 'not started' if leader.nil?
+
+    if complete?
+      leader.name
+    else
+      "#{leader.name} (leading)"
+    end
+  end
+
+  def winner_score
+    leader = leader()
+    return 'n/a' if leader.nil?
+    
+    leader.result(self, Time.zone.now)[:score]
+  end
 
   def full_name
     "#{season} #{name}"
@@ -44,10 +51,21 @@ class League < ApplicationRecord
   # end
 
   private
-  def unique_leaague_season_combo
+
+  def complete?
+    return true if matches.size == match_total
+    
+    false
+  end
+
+  def leader
+    players.to_a.sort_by { |p| -p.result(self, Time.zone.now)[:score] }[0]
+  end
+
+  def unique_league_season_combo
     league = League.where(['name = ? and season = ?', name, season]).first
     return if league.blank?
 
-    errors.add(:base, 'A league with this name for this season already exists')
+    errors.add(:base, 'A league with this name for this season already exists') unless id == league.id
   end
 end

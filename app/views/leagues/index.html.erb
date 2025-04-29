@@ -7,10 +7,14 @@
   <table>
     <thead>
       <tr>
+        <th>Activity</th>
         <th>Season</th>
         <th>Name</th>
-        <th class="">Matches</th>
+        <th>Total Matches</th>
+        <th class="">Matches Played</th>
         <th class="pe-3">Players</th>
+        <th class="pe-3">Winner</th>
+        <th class="pe-3">Winner Score</th>
         <th colspan="2"></th>
       </tr>
     </thead>
@@ -18,10 +22,14 @@
     <tbody>
       <% @leagues.each do |league| %>
         <tr>
+          <td><%= league.activity %></td>
           <td><%= league.season %></td>
           <td><%= link_to league.name, league %></td>
+          <td class="text-center"><%= league.match_total || (image_tag 'infinity.png', class: 'edit-icon') %></td>
           <td class="text-center"><%= league.matches.count %></td>
           <td class="ps-2 pe-3 pe-md-5 text-center"><%= league.players.count %></td>
+          <td class="ps-2 pe-3 pe-md-5 text-center"><%= league.winner_name %></td>
+          <td class="ps-2 pe-3 pe-md-5 text-center"><%= league.winner_score %></td>
           <td class="px-2"><%= link_to edit_league_path(league) do %>
             <i class="bi bi-pencil-fill"></i>
             <% end %>

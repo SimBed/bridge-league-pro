@@ -12,23 +12,33 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :season, style: "display: block" %>
-    <%= form.text_field :season %>
+    <%= form.label :activity %>
+    <%= form.text_field :activity, class: 'form-control' %>
   </div>
 
   <div class="field">
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+    <%= form.label :season %>
+    <%= form.text_field :season, class: 'form-control' %>
   </div>
 
   <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :matches %>
+    <%= form.number_field :match_total, class: 'form-control' %>
+  </div>
+
+  <div class="field my-3">
     <%= form.label :loser_scores_zero do %>
       <%= form.check_box :loser_scores_zero %>
       loser scores zero?
     <% end %>
   </div>
 
-  <div>
+  <div class = 'actions'>
     <%= form.submit %>
   </div>
 <% end %>

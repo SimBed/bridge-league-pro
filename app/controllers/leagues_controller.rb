@@ -2,7 +2,7 @@ class LeaguesController < ApplicationController
   before_action :set_league, only: %i[show edit update destroy]
 
   def index
-    @leagues = League.includes(:winners, :losers, :matches)
+    @leagues = League.order_by_created_at.includes(:winners, :losers, :matches)
   end
 
   def show
@@ -54,6 +54,6 @@ class LeaguesController < ApplicationController
   end
 
   def league_params
-    params.require(:league).permit(:season, :name, :loser_scores_zero)
+    params.require(:league).permit(:season, :name, :activity, :match_total, :loser_scores_zero)
   end
 end
