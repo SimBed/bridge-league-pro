@@ -1,24 +1,5 @@
-# README
+**A tool for recording matches and aggregating results into a league table.**
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Designed for two-player games and flexible enough to support leagues of any size.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Originally built to track robot-partner bridge challenges played against a friend on Bridge Base Online.

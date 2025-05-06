@@ -24,7 +24,7 @@
         <tr>
           <td><%= league.activity %></td>
           <td><%= league.season %></td>
-          <td><%= link_to league.name, league %></td>
+          <td><%= link_to league.name, league, class: 'buttonlike' %></td>
           <td class="text-center"><%= league.match_total || (image_tag 'infinity.png', class: 'edit-icon') %></td>
           <td class="text-center"><%= league.matches.count %></td>
           <td class="ps-2 pe-3 pe-md-5 text-center"><%= league.players.count %></td>

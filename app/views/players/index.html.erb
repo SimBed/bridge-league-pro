@@ -9,7 +9,7 @@
   <tbody>
     <% @players.each do |player| %>
       <tr>
-        <td><%= link_to player.name, player, class: ('text-primary' if player.priority?) %></td>
+        <td><%= link_to player.name, player, class: ['buttonlike', ('text-priority' if player.priority?)].join(' ') %></td>
         <td class="px-2"><%= link_to edit_player_path(player[:id]) do %>
           <i class="bi bi-pencil-fill"></i>
           <% end %>

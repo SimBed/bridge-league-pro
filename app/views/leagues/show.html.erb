@@ -1,64 +1,72 @@
-<div class="container">
-  <p>
-    <strong>League:</strong>
-    <select id="show_pages">
-      <!-- https://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-options_for_select-->
-      <!-- value, option text, selected -->
-      <!-- [["SimKann", 1, {"data-showurl"=>"http://localhost:3000/leagues/1"}],
-          ["MonNight", 2, {"data-showurl"=>"http://localhost:3000/leagues/2"}]],
-          1 -->
-      <%= options_for_select(@leagues, params[:id]) %>
-    </select>
-  </p>
-  <%= link_to tag.i(class:["bi", "bi-bar-chart",("hide-chart" if params[:chart] == 'show')].compact.join(' ')), league_path(@league, chart: params[:chart] == 'show' ? 'hide' : 'show') %>
+<%= turbo_frame_tag "show_league_for_match_#{@match_id}" do %>
+  <div class="canvas gray100-canvas embossed m-1">
+    <% if false %>
+      <p>
+        <strong>League:</strong>
+        <select id="show_pages">
+          <!-- https://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-options_for_select-->
+          <!-- value, option text, selected -->
+          <!-- [["SimKann", 1, {"data-showurl"=>"http://localhost:3000/leagues/1"}],
+              ["MonNight", 2, {"data-showurl"=>"http://localhost:3000/leagues/2"}]],
+              1 -->
+          <%= options_for_select(@leagues, params[:id]) %>
+        </select>
+      </p>
+    <% end %>
+    <%= link_to tag.i(class:["bi", "bi-bar-chart", "ps-2", ("hide-chart" if params[:chart] == 'show')].compact.join(' ')),
+                league_path(@league, match_id: @match_id, chart: params[:chart] == 'show' ? 'hide' : 'show') %>
 
-  <% if params[:chart] == 'show' %>
-    <%= line_chart @priority_players.map { |p|
-        {name: p.name, data: p.progress(@league) }
-    } %>
-  <% end %>
-  
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th class="pr-3 pr-md-5">Matches</th>
-        <th class="pr-3 pr-md-5"><%= link_to 'Score', league_path(params[:id], sort_by: 'score') %></th>
-        <% unless @league.loser_scores_zero?%>
-          <th class="pr-3 pr-md-5">Win %</th>
-          <th class="pr-3 pr-md-5"><%= link_to 'Average Score', league_path(params[:id], sort_by: 'average') %></th>      
-        <% end %>
-        <th>Position</th>
-        <th colspan="2"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @players.each_with_index do |player, index| %>
+    <% if params[:chart] == 'show' %>
+      <%= line_chart @priority_players.map { |p|
+          {name: p.name, data: p.progress(@league) }
+      } %>
+    <% end %>
+    
+    <table>
+      <thead>
         <tr>
-          <td><%= link_to player.name, player, class: ('text-primary' if player.priority?) %></td>
-          <td><%= player.matches_in(@league).size %></td>
-          <td><%= player.result(@league, Time.zone.now)[:score] %></td>
-          <% unless @league.loser_scores_zero?%>        
-            <td><%= (player.matches_won_in(@league).size.to_f * 100 / player.matches_in(@league).size).round(0) %></td>
-            <td><%= player.result(@league, Time.zone.now)[:average_score] %></td>
-          <% end %>          
-          <td><%= index + 1 %></td>
+          <th>Name</th>
+          <th class="pr-3 pr-md-5">Matches</th>
+          <th class="pr-3 pr-md-5"><%= link_to 'Score', league_path(params[:id], match_id: @match_id, sort_by: 'score'), class: 'bi bi-sort-alpha-down' %></th>
+          <% unless @league.loser_scores_zero?%>
+            <th class="pr-3 pr-md-5">Win %</th>
+            <th class="pr-3 pr-md-5"><%= link_to 'Average Score', league_path(params[:id], match_id: @match_id, sort_by: 'average'), class: 'bi bi-sort-alpha-down' %></th>      
+          <% end %>
+          <th>Position</th>
+          <th colspan="2"></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+      </thead>
 
-<script>
-	var userSelection = document.getElementById("show_pages");
+      <tbody>
+        <% @players.each_with_index do |player, index| %>
+          <tr>
+            <td><%= link_to player.name, player, class: ['buttonlike', ('text-priority' if player.priority?)].join(' '), data: {turbo: false} %></td>
+            <td><%= player.matches_in(@league).size %></td>
+            <td><%= player.result(@league, Time.zone.now)[:score] %></td>
+            <% unless @league.loser_scores_zero?%>        
+              <td><%= (player.matches_won_in(@league).size.to_f * 100 / player.matches_in(@league).size).round(0) %></td>
+              <td><%= player.result(@league, Time.zone.now)[:average_score] %></td>
+            <% end %>          
+            <td><%= index + 1 %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="cancel">
+      <%= link_to image_tag('delete.png', class: "table_icon"), @form_cancel_link %>
+    </div>    
+  </div>
 
-  userSelection.onchange = function(event){
-    var show_url = event.target.options[event.target.selectedIndex].dataset.showurl;
-    //var option = userSelection.options[userSelection.selectedIndex];
-    //var show_url = option.getAttribute("data-rc");
-    window.location.replace(show_url);
-  };
+  <%# <script>
+    var userSelection = document.getElementById("show_pages");
 
-</script>
+    userSelection.onchange = function(event){
+      var show_url = event.target.options[event.target.selectedIndex].dataset.showurl;
+      //var option = userSelection.options[userSelection.selectedIndex];
+      //var show_url = option.getAttribute("data-rc");
+      window.location.replace(show_url);
+    };
+
+  </script> %>
+<% end %>
 

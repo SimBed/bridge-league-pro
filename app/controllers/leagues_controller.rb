@@ -13,6 +13,8 @@ class LeaguesController < ApplicationController
     #        ["MonNight", 2, {"data-showurl"=>"http://localhost:3000/leagues/2"}]]
     @leagues = League.all.map { |l| [l.full_name, l.id, {"data-showurl" => league_url(l.id)}] }
     @priority_players = @league.players.select { |p| p.priority? } if params[:chart] == 'show'
+    @match_id = params[:match_id]
+    @form_cancel_link = matches_path
   end
 
   def new

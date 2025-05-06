@@ -4,15 +4,16 @@
       <%= match.date.strftime('%d/%m/%y') %>
     </div>
     <div class="column col-2x"><%= match.score %></div>
-    <div class="column col-2x"><%= link_to match.winner.name, match.winner, data: {turbo: false} %></div>
-    <div class="column col-2x"><%= link_to match.loser.name, match.loser, data: {turbo: false} %></div>
-    <div class="column col-2x"><%= link_to match.league.name, match.league, data: {turbo: false} %></div>
+    <div class="column col-2x"><%= link_to match.winner.name, match.winner, class: 'buttonlike', data: {turbo: false} %></div>
+    <div class="column col-2x"><%= link_to match.loser.name, match.loser, class: 'buttonlike', data: {turbo: false} %></div>
+    <div class="column col-2x"><%= link_to match.league.name, league_path(match.league, match_id: match.id), class: 'buttonlike', data: {turbo_frame: "show_league_for_match_#{match.id}"} %></div>
     <div class="column col-2x"><%= match.league.season %></div>
-    <div class="column nomobile"><%= link_to edit_match_path(match, data: {turbo_frame: dom_id(match)}) do %>
+    <div class="column nomobile"><%= link_to edit_match_path(match), data: {turbo_frame: dom_id(match)} do %>
                                       <i class="bi bi-pencil-fill"></i>
                                     <% end %>
     </div>       
   </div>
+  <%= turbo_frame_tag "show_league_for_match_#{match.id}" %>
 <% end %>
 
 

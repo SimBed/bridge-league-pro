@@ -14,9 +14,9 @@
       <tr>
         <td><%= match.date.strftime('%d/%m/%y') %></td>
         <td><%= match.score %></td>
-        <td><%= link_to match.winner.name, match.winner %></td>
-        <td><%= link_to match.loser.name, match.loser %></td>
-        <td><%= link_to match.league.name, match.league %></td>
+        <td><%= link_to match.winner.name, match.winner, class: 'buttonlike' %></td>
+        <td><%= link_to match.loser.name, match.loser, class: 'buttonlike' %></td>
+        <td><%= link_to match.league.name, match.league, class: 'buttonlike' %></td>
       </tr>
     <% end %>
   </tbody>
